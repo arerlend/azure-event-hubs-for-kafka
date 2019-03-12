@@ -22,11 +22,11 @@ An Event Hubs namespace is required to send or receive from any Event Hubs servi
 
 ### FQDN
 
-For this sample, you will need the connection string from the portal as well as the FQDN that points to your Event Hub namespace. **The FQDN can be found within your connection string as follows**:
+For these samples, you will need the connection string from the portal as well as the FQDN that points to your Event Hub namespace. **The FQDN can be found within your connection string as follows**:
 
-```
-Endpoint=sb://{YOUR.EVENTHUBS.FQDN}/;SharedAccessKeyName={SHARED.ACCESS.KEY.NAME};SharedAccessKey={SHARED.ACCESS.KEY}
-```
+`Endpoint=sb://`**`mynamespace.servicebus.windows.net`**`/;SharedAccessKeyName=XXXXXX;SharedAccessKey=XXXXXX`
+
+If your Event Hubs namespace is deployed on a non-Public cloud, your domain name may differ (e.g. \*.servicebus.chinacloudapi.cn, \*.servicebus.usgovcloudapi.net, or \*.servicebus.cloudapi.de).
 
 ## Clone the example project
 
@@ -48,7 +48,7 @@ Using the provided Flink producer example, send messages to the Event Hubs servi
 Update the `bootstrap.servers` and `sasl.jaas.config` values in `producer/src/main/resources/producer.config` to direct the producer to the Event Hubs Kafka endpoint with the correct authentication.
 
 ```
-bootstrap.servers={YOUR.EVENTHUBS.FQDN}:9093
+bootstrap.servers=mynamespace.servicebus.windows.net:9093
 client.id=FlinkExampleProducer
 sasl.mechanism=PLAIN
 security.protocol=SASL_SSL
@@ -79,7 +79,7 @@ Using the provided consumer example, receive messages from the Kafka-enabled Eve
 Update the `bootstrap.servers` and `sasl.jaas.config` values in `consumer/src/main/resources/consumer.config` to direct the consumer to the Event Hubs Kafka endpoint with the correct authentication.
 
 ```config
-bootstrap.servers={YOUR.EVENTHUBS.FQDN}:9093
+bootstrap.servers=mynamespace.servicebus.windows.net:9093
 group.id=FlinkExampleConsumer
 sasl.mechanism=PLAIN
 security.protocol=SASL_SSL

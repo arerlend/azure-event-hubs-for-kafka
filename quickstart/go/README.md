@@ -22,11 +22,11 @@ Additionally, topics in Kafka map to Event Hub instances, so create an Event Hub
 
 ### FQDN
 
-For this sample, you will need the connection string from the portal as well as the FQDN that points to your Event Hub namespace. **The FQDN can be found within your connection string as follows**:
+For these samples, you will need the connection string from the portal as well as the FQDN that points to your Event Hub namespace. **The FQDN can be found within your connection string as follows**:
 
-```
-Endpoint=sb://{YOUR.EVENTHUBS.FQDN}/;SharedAccessKeyName={SHARED.ACCESS.KEY.NAME};SharedAccessKey={SHARED.ACCESS.KEY}
-```
+`Endpoint=sb://`**`mynamespace.servicebus.windows.net`**`/;SharedAccessKeyName=XXXXXX;SharedAccessKey=XXXXXX`
+
+If your Event Hubs namespace is deployed on a non-Public cloud, your domain name may differ (e.g. \*.servicebus.chinacloudapi.cn, \*.servicebus.usgovcloudapi.net, or \*.servicebus.cloudapi.de).
 
 ## Clone the example project
 
@@ -42,8 +42,8 @@ cd azure-event-hubs-for-kafka/quickstart/go
 Define two environmental variables that specify the fully qualified domain name and port of the Kafka head of your Event Hub and its connection string.
 
 ```bash
-$ export KAFKA_EVENTHUB_ENDPOINT="{YOUR.EVENTHUBS.FQDN}:9093"
-$ export KAFKA_EVENTHUB_CONNECTION_STRING="{YOUR.EVENTHUBS.CONNECTION.STRING}"
+$ export KAFKA_EVENTHUB_ENDPOINT="mynamespace.servicebus.windows.net:9093" # REPLACE
+$ export KAFKA_EVENTHUB_CONNECTION_STRING="Endpoint=sb://mynamespace.servicebus.windows.net/;SharedAccessKeyName=XXXXXX;SharedAccessKey=XXXXXX" # REPLACE
 ```
 
 ## Producer

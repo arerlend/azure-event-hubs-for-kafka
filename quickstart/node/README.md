@@ -21,15 +21,15 @@ In addition:
 
 An Event Hub's namespace is required to send or receive from any Event Hubs service. See [Create Kafka Enabled Event Hubs](https://docs.microsoft.com/azure/event-hubs/event-hubs-create-kafka-enabled) for instructions on getting an Event Hubs Kafka endpoint. Make sure to copy the Event Hubs connection string for later use.
 
-Additionally, topics in Kafka map to Event Hub instances, so create an Event Hub instance called "test" that our samples can send and receive messages from.
+Additionally, topics in Kafka map to Event Hub instances, so create an Event Hub instance called "test" that our samples can send and receive messages from.  **If the Event Hub is not created, message delivery will not complete.**
 
 ### FQDN
 
-For this sample, you will need the connection string from the portal as well as the FQDN that points to your Event Hub namespace. **The FQDN can be found within your connection string as follows**:
+For these samples, you will need the connection string from the portal as well as the FQDN that points to your Event Hub namespace. **The FQDN can be found within your connection string as follows**:
 
-```
-Endpoint=sb://{YOUR.EVENTHUBS.FQDN}/;SharedAccessKeyName={SHARED.ACCESS.KEY.NAME};SharedAccessKey={SHARED.ACCESS.KEY}
-```
+`Endpoint=sb://`**`mynamespace.servicebus.windows.net`**`/;SharedAccessKeyName=XXXXXX;SharedAccessKey=XXXXXX`
+
+If your Event Hubs namespace is deployed on a non-Public cloud, your domain name may differ (e.g. \*.servicebus.chinacloudapi.cn, \*.servicebus.usgovcloudapi.net, or \*.servicebus.cloudapi.de).
 
 ## Clone the example project
 
@@ -47,12 +47,12 @@ Configure the Kafka Producer/Consumer types with the fully qualified domain name
 ```javascript
 var producer = new Kafka.Producer({
   //'debug' : 'all',
-  'metadata.broker.list': '{YOUR.EVENTHUBS.FQDN}:9093',
+  'metadata.broker.list': 'mynamespace.servicebus.windows.net:9093', //REPLACE​
   'dr_cb': true,  //delivery report callback
   'security.protocol': 'SASL_SSL',
   'sasl.mechanisms': 'PLAIN',
-  'sasl.username': '$ConnectionString',
-  'sasl.password': '{YOUR.EVENTHUB.CONNECTION.STRING}'
+  'sasl.username': '$ConnectionString', //do not replace $ConnectionString
+  'sasl.password': 'Endpoint=sb://mynamespace.servicebus.windows.net/;SharedAccessKeyName=XXXXXX;SharedAccessKey=XXXXXX' //REPLACE
 });
 
 ```

@@ -30,9 +30,9 @@ An Event Hubs namespace is required to send or receive from any Event Hubs servi
 
 For these samples, you will need the connection string from the portal as well as the FQDN that points to your Event Hub namespace. **The FQDN can be found within your connection string as follows**:
 
-```
-Endpoint=sb://{YOUR.EVENTHUBS.FQDN}/;SharedAccessKeyName={SHARED.ACCESS.KEY.NAME};SharedAccessKey={SHARED.ACCESS.KEY}
-```
+`Endpoint=sb://`**`mynamespace.servicebus.windows.net`**`/;SharedAccessKeyName=XXXXXX;SharedAccessKey=XXXXXX`
+
+If your Event Hubs namespace is deployed on a non-Public cloud, your domain name may differ (e.g. \*.servicebus.chinacloudapi.cn, \*.servicebus.usgovcloudapi.net, or \*.servicebus.cloudapi.de).
 
 ## Update your Kafka client configuration
 
@@ -41,7 +41,7 @@ To connect to a Kafka-enabled Event Hub, you'll need to update the Kafka client 
 Insert the following configs wherever makes sense in your application. Make sure to update the `bootstrap.servers` and `sasl.jaas.config` values to direct the client to your Event Hubs Kafka endpoint with the correct authentication. 
 
 ```
-bootstrap.servers={YOUR.EVENTHUBS.FQDN}:9093
+bootstrap.servers=mynamespace.servicebus.windows.net:9093
 request.timeout.ms=60000
 security.protocol=SASL_SSL
 sasl.mechanism=PLAIN
@@ -70,6 +70,12 @@ This error could mean many things, usually related to either client configuratio
 ### Consumers not getting any records and constantly rebalancing
 
 There is no exception or error when this happens, but the Kafka logs will show that the consumers are stuck trying to re-join the group and assign partitions. If this is happening, ensure that all consumers are using unique client IDs by setting the `client.id` property for each consumer client. 
+
+### Compression / Message Format Version issue
+
+Kafka supports compression, and Event Hubs for Kafka currently does not. Errors that mention a message format version (e.g. `The message format version on the broker does not support the request.`) are usually caused when a client tries to send compressed Kafka messages to our brokers. 
+
+If compressed data is necessary, compressing your data before sending it to the brokers and decompressing after receiving it is a valid workaround. The message body is just a byte array to the service, so client-side compression/decompression will not cause any issues.
 
 ### Other issues? 
 In our experience, when changing the configurations didn't go as smoothly as we'd hoped, the issue was usually related to one of the following:
